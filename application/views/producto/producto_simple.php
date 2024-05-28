@@ -20,15 +20,15 @@
 				</h4>
 			</div>
 
-			<form id="frmProducto_simple" name="frmProducto_simple" method="POST" onsubmit="return productoABC();">
+			<form id="frmProducto_simple" name="frmProducto_simple" method="POST" onsubmit="return salidaProducto();">
 					<div class="modal-body">
 							<div class="row">
 								<div class="col-md-6">
 									<label>Nombre:</label>
-									<input type="text" name="nombre" id="nombre" required="required" class="form-control" />
+									<input type="text" id="nombre" class="form-control" readonly/>
 								</div>
 								<div class="col-md-6">
-									<label>Cantidad requerida: </label>
+									<label>Salida de producto: </label>
 									<input type="number" name="salida" id="salida" min="0" required="required" value="0" class="form-control" />
 								</div>
 								<input type="hidden" name="modo" id="modo" value="4">

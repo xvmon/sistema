@@ -64,6 +64,7 @@ function Listar(){
                                   icono = "'fa fa-check-square-o'";
                               }
                               return "<div class='text-center'><button title='Editar Producto' onclick='forma("+o.IdProducto+",2);' class='btn btn-dark-blue'><i class='fa fa-pencil-square-o'></i></button>"+
+							  "<div class='text-center'><button title='Salida de producto' onclick='formaEntrada("+o.IdProducto+",2);' class='btn btn-success'><i class='fa fa-truck'></i></button>"+
                               "<button title='Cambiar Estatus Producto' onclick='estatus("+o.IdProducto+","+estatus+",3);' class='btn btn-default'><i class="+icono+"></i></button></div>";
                               }
                           },
@@ -100,7 +101,6 @@ function forma(id,modo){
 				var registros = JSON.parse(data);
 
 	            document.getElementById("nombre").value= registros["nombre"];
-				document.getElementById("cantidad").value= registros["cantidad"];
 	            document.getElementById("id").value= registros["IdProducto"];
 
 	        	if(modo == 2){
@@ -132,6 +132,46 @@ function estatus(id, estatus, modo){
 			console.log('Error estatus');
 		}
 	});
+}
+
+function formaEntrada(id,modo){
+	document.getElementById('frmEntrada').reset();
+		$.ajax({
+			url: '<?=base_url()?>index.php/Productos/getProducto/',
+			type:"POST",
+	        data:{
+	            id: id,
+	            modo: modo
+	        },
+			success: function(data) {
+				var registros = JSON.parse(data);
+	            document.getElementById("producto").value= registros["nombre"];
+	            document.getElementById("idp").value= registros["IdProducto"];
+			},
+			error: function() {
+				console.log('Error al cargar la forma');
+			}
+		});
+	$("#myFrmEntrada").modal("show");
+}
+
+function entradaProducto(){
+	$.ajax({
+		url : '<?=base_url()?>index.php/Productos/proceso/',
+		type : 'post',
+		data : $("#frmEntrada").serializeArray(),
+		success : function(data) {
+			if(data == 0){
+				alert('Error entrada producto');
+			}else{
+				location.reload();
+			}
+		},
+		error: function() {
+			console.log('Error');
+		}
+	});
+	return false;
 }
 
 function productoABC(){

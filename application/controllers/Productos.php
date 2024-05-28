@@ -64,24 +64,24 @@ class Productos extends CI_Controller{
 			$idu = $this->session->userdata('id');
 			
 			if($modo == 1){				
-					$donde = '';
-					$resp = $this->comun_model->proceso('productos',$modo,$donde,$_POST);
-					$datosh = array('fecha' => $hoy, 'descripcion' => 'el usuario '.$idu.' agrego un producto');
-					$this->comun_model->proceso('historial',1,'',$datosh);
-					if($resp != 0){
-						echo 'Registrar '.$_POST['nombre'];
-					}else{
-						echo 'Error al insertar';
-					}
+				$donde = '';
+				$_POST['cantidad'] = 0;
+				$resp = $this->comun_model->proceso('productos',$modo,$donde,$_POST);
+				$dh = array('fecha' => $hoy, 'descripcion' => 'Usuario '.$idu.', agregar producto');
+				$this->comun_model->proceso('historial',1,'',$dh);
+				if($resp != 0){
+					echo 'Registrar '.$_POST['nombre'];
+				}else{
+					echo 'Error al insertar';
+				}
 			}
 			
 			if($modo == 2){				
 				$donde = array('IdProducto' => $id);			
-				$resp = $this->comun_model->proceso('productos',$modo,$donde,$_POST);
-
-				$datosh = array('fecha' => $hoy, 'descripcion' => 'el usuario '.$idu.' actualizo el producto'.$id);
-				$this->comun_model->proceso('historial',1,'',$datosh);
-				if($resp != 0){
+				$resp2 = $this->comun_model->proceso('productos',$modo,$donde,$_POST);
+				$dh = array('fecha' => $hoy, 'descripcion' => 'Usuario '.$idu.', actualiza producto'.$id);
+				$this->comun_model->proceso('historial',1,'',$dh);
+				if($resp2 != 0){
 					echo 'Actualizar '.$_POST['nombre'];
 				}else{
 					echo 'Error al actualizar';
@@ -94,17 +94,54 @@ class Productos extends CI_Controller{
 				}else{
 					$estatus = 0;
 				}
-				
 				$datos = array('estatus' => $estatus);				
 				$donde = array('IdProducto' => $id);
-				$resp = $this->comun_model->proceso('productos',2,$donde,$datos);
-
-				$datosh = array('fecha' => $hoy, 'descripcion' => 'el usuario '.$idu.' cambio el estatus del producto'.$id);
-				$this->comun_model->proceso('historial',1,'',$datosh);
-				if($resp != 0){
+				$resp3 = $this->comun_model->proceso('productos',2,$donde,$datos);
+				$dh = array('fecha' => $hoy, 'descripcion' => 'Usuario '.$idu.', cambio estatus del producto'.$id);
+				$this->comun_model->proceso('historial',1,'',$dh);
+				if($resp3 != 0){
 					echo 'Cambio de estatus '.$id;
 				}else{
 					echo 'Error estatus';
+				}
+			}
+
+			if($modo == 4){				
+				$donde = array('IdProducto' => $id);	
+				$salida = $_POST['salida'];
+				unset($_POST['salida']);		
+				$registro = $this->comun_model->getRegistro('productos',$donde);
+				$cantidad = $registro->cantidad;
+				if($cantidad >= $salida){
+					$_POST['cantidad'] = $cantidad - $salida;
+					$resp4 = $this->comun_model->proceso('productos',2,$donde,$_POST);
+
+					$dh = array('fecha' => $hoy, 'descripcion' => 'Usuario '.$idu.', salida de producto'.$id);
+					$this->comun_model->proceso('historial',1,'',$dh);
+					if($resp4 != 0){
+						echo 2;
+					}else{
+						echo 1;
+					}
+				}else{
+					echo 0;
+				}
+			}
+
+			if($modo == 5){	
+				$entrada = $_POST['entrada'];				
+				$donde = array('IdProducto' => $id);	
+				$registro = $this->comun_model->getRegistro('productos',$donde);
+				$_POST['cantidad'] = $registro->cantidad + $_POST['entrada'];	
+				unset($_POST['entrada']);	
+
+				$resp5 = $this->comun_model->proceso('productos',2,$donde,$_POST);
+				$dh = array('fecha' => $hoy, 'descripcion' => 'Usuario '.$idu.', entrada de producto'.$id);
+				$this->comun_model->proceso('historial',1,'',$dh);
+				if($resp5 != 0){
+					echo 1;
+				}else{
+					echo 0;
 				}
 			}
 		}else{

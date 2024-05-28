@@ -53,7 +53,7 @@ function Listar(){
                           "bSortable": false,
                           "mRender": function (o) {
 
-                              return "<div class='text-center'><button title='Editar Producto' onclick='forma("+o.IdProducto+",4);' class='btn btn-dark-blue'><i class='fa fa-pencil-square-o'></i></button>";
+                              return "<div class='text-center'><button title='Entrada de Producto' onclick='forma("+o.IdProducto+",2);' class='btn btn-success'><i class='fa fa-truck'></i></button>";
                               }
                           },
                       {"data":"nombre"},
@@ -80,7 +80,6 @@ function forma(id,modo){
 				var registros = JSON.parse(data);
 	            document.getElementById("nombre").value= registros["nombre"];
 	            document.getElementById("id").value= registros["IdProducto"];
-	            document.getElementById("modo").value= modo;
 			},
 			error: function() {
 				console.log('Error al cargar la forma');
@@ -89,13 +88,19 @@ function forma(id,modo){
 	$("#myFrmProducto_simple").modal("show");
 }
 
-function producto_salida(){
+function salidaProducto(){
 	$.ajax({
 		url : '<?=base_url()?>index.php/Productos/proceso/',
 		type : 'post',
 		data : $("#frmProducto_simple").serializeArray(),
 		success : function(data) {
-			location.reload();
+			if(data == 0){
+				alert('No hay existencias');
+			}else if(data == 1){
+				alert('Error actualizar');
+			}else{
+				location.reload();
+			}
 		},
 		error: function() {
 			console.log('Error');

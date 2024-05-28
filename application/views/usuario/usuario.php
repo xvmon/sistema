@@ -6,7 +6,7 @@
 	    <tr>
 	        <th>Usuario</th>
 	        <th>Estatus</th>
-	        <th></th>
+	        <th>Acciones</th>
 	    </tr>
 	   	</thead>
 	</table>
