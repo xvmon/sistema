@@ -28,3 +28,5 @@ cambiar las siguientes lineas
 $config['base_url'] = 'http://localhost/sistema/';
 
 Para la base de datos con el nombre propuesto de sistema para la base de datos y tambien para la aplicacion web php
+
+Nota se incluye usuario admin contraseña 123456789, tambien usuario empleado contraseña 123456789
