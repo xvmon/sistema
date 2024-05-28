@@ -1,0 +1,32 @@
+{
+	"description" : "The CodeIgniter framework",
+	"name" : "codeigniter/framework",
+	"type" : "project",
+	"homepage" : "https://codeigniter.com",
+	"license" : "MIT",
+	"support" : {
+		"forum" : "http://forum.codeigniter.com/",
+		"wiki" : "https://github.com/bcit-ci/CodeIgniter/wiki",
+		"irc" : "irc://irc.freenode.net/codeigniter",
+		"source" : "https://github.com/bcit-ci/CodeIgniter"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Microsoft\\Graph\\Connect\\" : "src/"
+		}
+	},
+	"require" : {
+		"php" : ">=5.2.4",
+		"league/oauth2-client" : "^1.4",
+		"microsoft/microsoft-graph" : "1.0.*",
+		"league/oauth2-server" : "^7.1",
+		"justinrainbow/json-schema" : "^5.2"
+	},
+	"suggest" : {
+		"paragonie/random_compat" : "Provides better randomness in PHP 5.x"
+	},
+	"require-dev" : {
+		"mikey179/vfsStream" : "1.1.*",
+		"phpunit/phpunit" : "4.* || 5.*"
+	}
+}
